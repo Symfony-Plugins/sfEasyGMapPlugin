@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>sfEasyGMapPlugin</name><channel>plugins.symfony-project.org</channel>
+ 
+ <summary>An easy, object-oriented, PHP abstraction of the Google Maps API</summary>
+ <description>The sfEasyGMap plugin provides helpers and an objet-oriented PHP abstraction to the Google Maps API to ease the process of adding a Google Map and customising it in your symfony projects.</description>
+ <lead>
+  <name>Fabrice BERNHARD</name>
+  <user>fabriceb</user>
+  <email>fabriceb@allomatch.com</email>
+  <active>yes</active>
+ </lead>
+
+ 
+ <date>2008-09-21</date>
+ <time>01:15:35</time>
+ <version>
+  <release>0.9.0</release>
+  <api>0.9.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.symfony-project.org/license">MIT license</license>
+ <notes>-</notes>
+ <contents>
+   <dir name="/">
+     <file role="data" name="README" />
+     <file role="data" name="LICENSE" />
+     <dir name="config">
+        <!-- settings -->
+        <file role="data" name="app.yml" />
+     </dir>
+     <dir name="lib">
+       <dir name="helper">
+         <!-- helpers -->
+         <file role="data" name="GMapHelper.php" />
+       </dir>
+       <file role="data" name="GMap.class.php" />
+       <file role="data" name="GMapMarker.class.php" />
+       <file role="data" name="GMapIcon.class.php" />
+       <file role="data" name="GMapEvent.class.php" />
+       <file role="data" name="GMapGeocodedAddress.class.php" />
+     </dir>
+     <dir name="modules">
+       <dir name="sfEasyGMapPlugin">
+         <file role="data" name="actions/actions.class.php" />
+         <file role="data" name="templates/sample1Success.php" />
+       </dir>
+     </dir>
+     <dir name="web">
+       <dir name="images">
+         <!-- images -->
+         <file role="data" name="nice_icon.png" />
+       </dir>
+       <dir name="js">
+         <!-- javascripts -->
+         <file role="data" name="sfEasyGMapPlugin.js" />
+       </dir>
+     </dir>
+   </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   <package>
+    <name>symfony</name>
+    <channel>pear.symfony-project.com</channel>
+    <min>1.0.0</min>
+    <max>1.2.0</max>
+    <exclude>1.2.0</exclude>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog />
+</package>
