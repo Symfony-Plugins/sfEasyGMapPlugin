@@ -15,7 +15,7 @@ class GMapGeocodedAddress
   protected $geocoded_country_code = null;
   protected $geocoded_country      = null;
   protected $geocoded_address      = null;
-  
+
   /**
    * Constructs a gMapGeocodedAddress object from a given $raw_address String
    *
@@ -26,7 +26,7 @@ class GMapGeocodedAddress
   {
     $this->raw_address = $raw_address;
   }
-  
+
   /**
    * Geocodes the address using Google Maps CSV webservice
    *
@@ -41,13 +41,13 @@ class GMapGeocodedAddress
     $geocoded_array = explode(',',$raw_data);
     if ($geocoded_array[0]!=200)
     {
-      
+
       return false;
     }
     $this->lat      = $geocoded_array[2];
     $this->lng      = $geocoded_array[3];
     $this->accuracy = $geocoded_array[1];
-    
+
     return $this->accuracy;
   }
 
@@ -60,23 +60,23 @@ class GMapGeocodedAddress
    */
   public function geocodeXml($api_key)
   {
-    $apiURL = "http://maps.google.com/maps/geo?&output=xml&key=".$this->getGoogleKey()."&q=";
+    $apiURL = "http://maps.google.com/maps/geo?&output=xml&key=".$api_key."&q=";
     $raw_data = utf8_encode(file_get_contents($apiURL.urlencode($this->raw_address)));
-    
+
     $p = xml_parser_create('UTF-8');
     xml_parse_into_struct($p, $raw_data, $vals, $index);
     xml_parser_free($p);
-    
+
     if ($vals[$index['CODE'][0]]['value'] != 200)
     {
-      
+
       return false;
     }
-    
+
     $coordinates = $vals[$index['COORDINATES'][0]]['value'];
     $coordArray = explode(',',$coordinates);
     $this->lat = $coordArray[1];
-    $this->lng = $coordArray[0];    
+    $this->lng = $coordArray[0];
     $this->accuracy = $vals[$index['ADDRESSDETAILS'][0]]['attributes']['ACCURACY'];
     $this->geocoded_address = $vals[$index['ADDRESS'][0]]['value'];
     $this->geocoded_country_code = $vals[$index['COUNTRYNAMECODE'][0]]['value'];
@@ -89,18 +89,18 @@ class GMapGeocodedAddress
     {
       $this->geocoded_city = $vals[$index['ADMINISTRATIVEAREANAME'][0]]['value'];
     }
-    
+
     return $this->accuracy;
   }
-  
-  
+
+
   /**
    * Returns Latitude
    * @return Decimal $latitude
    */
   public function getLat()
   {
-    
+
     return $this->lat;
   }
   /**
@@ -109,7 +109,7 @@ class GMapGeocodedAddress
    */
   public function getLng()
   {
-    
+
     return $this->lng;
   }
   /**
@@ -118,7 +118,7 @@ class GMapGeocodedAddress
    */
   public function getAccuracy()
   {
-    
+
     return $this->accuracy;
   }
   /**
@@ -127,7 +127,7 @@ class GMapGeocodedAddress
    */
   public function getGeocodedAddress()
   {
-    
+
     return $this->geocoded_address;
   }
   /**
@@ -136,7 +136,7 @@ class GMapGeocodedAddress
    */
   public function getGeocodedCity()
   {
-    
+
     return $this->geocoded_city;
   }
   /**
@@ -145,8 +145,8 @@ class GMapGeocodedAddress
    */
   public function getGeocodedCountryCode()
   {
-    
+
     return $this->geocoded_country_code;
   }
-  
+
 }

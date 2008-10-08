@@ -28,7 +28,7 @@ class GMap
   // customise the javascript generated
   protected $after_init_js=array();
   protected $global_variables=array();
-  
+
   // options
   protected $options = array();
 
@@ -54,16 +54,16 @@ class GMap
 
     // delcare the Google Map Javascript object as global
     $this->addGlobalVariable($this->getJsName(),'null');
-     
+
     // set the Google Map API key for the current domain
     $this->guessAPIKey();
-    
+
     $default_options = array(
       'double_click_zoom'=>true,
       'control'=>'new google.maps.LargeMapControl()'
     );
     $this->options = array_merge($default_options,$options);
-    
+
   }
 
   /**
@@ -132,7 +132,7 @@ class GMap
   public function geocodeXml($address)
   {
     $gMapGeocodedAddress = new GMapGeocodedAddress($address);
-    $gMapGeocodedAddress->geocodeXml($this->getGoogleKey());
+    $gMapGeocodedAddress->geocodeXml($this->getAPIKey());
 
     return $gMapGeocodedAddress;
   }
@@ -235,7 +235,7 @@ class GMap
     sfContext::getInstance()->getResponse()->addJavascript($this->getGoogleJsUrl());
 
     $options = $this->options;
-    
+
     $return ='';
     $init_events = array();
     $init_events[] = $this->getJsName().' = new google.maps.Map2(document.getElementById("'.$this->container_id.'"));';
@@ -256,9 +256,9 @@ class GMap
     {
       $init_events[] = $after_init;
     }
-    
+
     $return .= '
-  google.load("maps", "2.x");   		   		
+  google.load("maps", "2.x");
    	';
     foreach($this->global_variables as $name=>$value)
     {
@@ -275,14 +275,14 @@ class GMap
     {
       $return .= '
       '.$init_event;
-    } 
+    }
     $return .= '
-    }                
+    }
   }
   google.setOnLoadCallback(initialize);
-  document.onunload="GUnload()";     
+  document.onunload="GUnload()";
 ';
-     
+
     return $return;
   }
 
@@ -292,7 +292,7 @@ class GMap
    */
   public function getGoogleJsUrl()
   {
-    
+
     return 'http://www.google.com/jsapi?key='.$this->getAPIKey();
   }
 
@@ -325,7 +325,7 @@ class GMap
   {
     array_push($this->events,$event);
   }
-  
+
   public function loadMarkerIcons()
   {
     foreach($this->markers as $marker)
@@ -347,7 +347,7 @@ class GMap
     {
       $return .= $icon->getIconJs();
     }
-     
+
     return $return;
   }
   /**
@@ -363,7 +363,7 @@ class GMap
       $return .= $this->getJsName().'.addOverlay('.$marker->getName().');';
       $return .= "\n      ";
     }
-    
+
     return $return;
   }
 
@@ -406,7 +406,7 @@ class GMap
   public function addGlobalVariable($name, $value='')
   {
     $this->global_variables[$name]=$value;
-     
+
   }
   public function setZoom($zoom)
   {
@@ -431,7 +431,7 @@ class GMap
   }
   public function getCenterLat()
   {
-    
+
     return $this->center_lat;
   }
   public function getCenterLng()
@@ -440,14 +440,14 @@ class GMap
   }
   public function getZoom()
   {
-    
+
     return $this->zoom;
   }
 
   /**
    * Returns the url for a static version of the map (when javascript is not active)
    * Supports only markers and basic parameters: centre, zoom, size
-   * 
+   *
    * @param string $map_type = 'mobile'
    * @param string $hl Language (fr, en...)
    * @return string Url of the picture
@@ -469,7 +469,7 @@ class GMap
     {
       $pairs[] = $key.'='.$value;
     }
-    
+
     return 'http://maps.google.com/staticmap?'.implode('&',$pairs);
   }
 
