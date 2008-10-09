@@ -15,6 +15,8 @@ class GMapGeocodedAddress
   protected $geocoded_country_code = null;
   protected $geocoded_country      = null;
   protected $geocoded_address      = null;
+  protected $geocoded_street       = null;
+  protected $geocoded_postal_code  = null;
 
   /**
    * Constructs a gMapGeocodedAddress object from a given $raw_address String
@@ -28,7 +30,7 @@ class GMapGeocodedAddress
   }
 
   /**
-   * Geocodes the address using Google Maps CSV webservice
+   * Geocodes the address using the Google Maps CSV webservice
    *
    * @param String $api_key
    * @return Integer $accuracy
@@ -52,8 +54,8 @@ class GMapGeocodedAddress
   }
 
   /**
-   * Geocodes the address using Google Mapx XML webservice, which has more information
-   *
+   * Geocodes the address using the Google Maps XML webservice, which has more information.
+   * Unknown values will be set to NULL.
    * @param String $api_key
    * @return Integer $accuracy
    * @author Fabrice Bernhard
@@ -74,20 +76,25 @@ class GMapGeocodedAddress
     }
 
     $coordinates = $vals[$index['COORDINATES'][0]]['value'];
-    $coordArray = explode(',',$coordinates);
-    $this->lat = $coordArray[1];
-    $this->lng = $coordArray[0];
+    list($this->lng, $this->lat) = explode(',', $coordinates);
+
     $this->accuracy = $vals[$index['ADDRESSDETAILS'][0]]['attributes']['ACCURACY'];
-    $this->geocoded_address = $vals[$index['ADDRESS'][0]]['value'];
-    $this->geocoded_country_code = $vals[$index['COUNTRYNAMECODE'][0]]['value'];
-    $this->geocoded_city = $vals[$index['LOCALITYNAME'][0]]['value'];
-    if ($this->geocoded_city == '')
+
+    // We voluntarily silence errors, the values will still be set to NULL if the array indexes are not defined
+    @$this->geocoded_address = $vals[$index['ADDRESS'][0]]['value'];
+    @$this->geocoded_street = $vals[$index['THOROUGHFARENAME'][0]]['value'];
+    @$this->geocoded_postal_code = $vals[$index['POSTALCODENUMBER'][0]]['value'];
+    @$this->geocoded_country = $vals[$index['COUNTRYNAME'][0]]['value'];
+    @$this->geocoded_country_code = $vals[$index['COUNTRYNAMECODE'][0]]['value'];
+
+    @$this->geocoded_city = $vals[$index['LOCALITYNAME'][0]]['value'];
+    if (empty($this->geocoded_city))
     {
-      $this->geocoded_city = $vals[$index['SUBADMINISTRATIVEAREANAME'][0]]['value'];
+      @$this->geocoded_city = $vals[$index['SUBADMINISTRATIVEAREANAME'][0]]['value'];
     }
-    if ($this->geocoded_city == '')
+    if (empty($this->geocoded_city))
     {
-      $this->geocoded_city = $vals[$index['ADMINISTRATIVEAREANAME'][0]]['value'];
+      @$this->geocoded_city = $vals[$index['ADMINISTRATIVEAREANAME'][0]]['value'];
     }
 
     return $this->accuracy;
@@ -95,7 +102,7 @@ class GMapGeocodedAddress
 
 
   /**
-   * Returns Latitude
+   * Returns the latitude
    * @return Decimal $latitude
    */
   public function getLat()
@@ -103,8 +110,9 @@ class GMapGeocodedAddress
 
     return $this->lat;
   }
+
   /**
-   * Returns longitude
+   * Returns the longitude
    * @return Decimal $longitude
    */
   public function getLng()
@@ -112,8 +120,9 @@ class GMapGeocodedAddress
 
     return $this->lng;
   }
+
   /**
-   * Returns Geocoding accuracy
+   * Returns the Geocoding accuracy
    * @return Integer $accuracy
    */
   public function getAccuracy()
@@ -121,8 +130,9 @@ class GMapGeocodedAddress
 
     return $this->accuracy;
   }
+
   /**
-   * Returns address as normalized by the Google Maps web service
+   * Returns the address normalized by the Google Maps web service
    * @return String $geocoded_address
    */
   public function getGeocodedAddress()
@@ -130,8 +140,9 @@ class GMapGeocodedAddress
 
     return $this->geocoded_address;
   }
+
   /**
-   * Returns city as normalized by the Google Maps web service
+   * Returns the city normalized by the Google Maps web service
    * @return String $geocoded_city
    */
   public function getGeocodedCity()
@@ -139,14 +150,45 @@ class GMapGeocodedAddress
 
     return $this->geocoded_city;
   }
+
   /**
-   * Returns country code as normalized by the Google Maps web service
+   * Returns the country code normalized by the Google Maps web service
    * @return String $geocoded_country_code
    */
   public function getGeocodedCountryCode()
   {
 
     return $this->geocoded_country_code;
+  }
+
+  /**
+   * Returns the country normalized by the Google Maps web service
+   * @return String $geocoded_country
+   */
+  public function getGeocodedCountry()
+  {
+
+    return $this->geocoded_country;
+  }
+
+  /**
+   * Returns the postal code normalized by the Google Maps web service
+   * @return String $geocoded_postal_code
+   */
+  public function getGeocodedPostalCode()
+  {
+
+    return $this->geocoded_postal_code;
+  }
+
+  /**
+   * Returns the street name normalized by the Google Maps web service
+   * @return String $geocoded_country_code
+   */
+  public function getGeocodedStreet()
+  {
+
+    return $this->geocoded_street;
   }
 
 }
