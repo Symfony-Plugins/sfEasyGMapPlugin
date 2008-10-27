@@ -403,7 +403,7 @@ class GMap
   {
     return $this->container_id;
   }
-  public function addGlobalVariable($name, $value='')
+  public function addGlobalVariable($name, $value='null')
   {
     $this->global_variables[$name]=$value;
 
