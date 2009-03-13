@@ -17,14 +17,14 @@
   <active>yes</active> 	
  </contributor> 
  <date>2009-03-13</date>
- <time>10:34:00</time>
+ <time>16:00:00</time>
  <version>
-  <release>0.9.4</release>
-  <api>0.9.4</api>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.symfony-project.org/license">MIT license</license>
  <notes>-</notes>
@@ -37,27 +37,51 @@
         <file role="data" name="app.yml" />
      </dir>
      <dir name="lib">
+       <dir name="external">
+         <!-- helpers -->
+         <file role="data" name="RenderTag.class.php" />
+       </dir>     	
        <dir name="helper">
          <!-- helpers -->
          <file role="data" name="GMapHelper.php" />
        </dir>
        <file role="data" name="GMap.class.php" />
+       <file role="data" name="GMapBounds.class.php" />
+       <file role="data" name="GMapCoord.class.php" />
+	   <file role="data" name="GMapEvent.class.php" />
+	   <file role="data" name="GMapGeocodedAddress.class.php" />
+	   <file role="data" name="GMapIcon.class.php" />
        <file role="data" name="GMapMarker.class.php" />
-       <file role="data" name="GMapIcon.class.php" />
-       <file role="data" name="GMapEvent.class.php" />
-       <file role="data" name="GMapGeocodedAddress.class.php" />
      </dir>
      <dir name="modules">
        <dir name="sfEasyGMapPlugin">
          <file role="data" name="actions/actions.class.php" />
+		 <file role="data" name="config/view.yml" />
          <file role="data" name="templates/sample1Success.php" />
+		 <file role="data" name="templates/indexSuccess.php" />
        </dir>
      </dir>
+     <dir name="test">
+       <dir name="bootstrap">
+         <!-- bootstrap -->
+         <file role="data" name="unit.php" />
+		 <file role="data" name="functional.php" />
+       </dir>
+       <dir name="unit">
+         <!-- unit -->
+         <file role="data" name="GMapBoundsTest.php" />
+		 <file role="data" name="GMapCoordTest.php" />
+       </dir>	   
+     </dir>
      <dir name="web">
+       <dir name="css">
+         <!-- images -->
+         <file role="data" name="sfEasyGMapPlugin.css" />
+       </dir>
        <dir name="images">
          <!-- images -->
          <file role="data" name="nice_icon.png" />
-       </dir>
+       </dir>	   
        <dir name="js">
          <!-- javascripts -->
          <file role="data" name="sfEasyGMapPlugin.js" />
@@ -97,5 +121,23 @@
  * removed the call to the Helper Tag to use the escape_javascript function to ensure symfony 1.2 compatibility
     </notes>  	
   </release>
+  <release>
+	 <version>
+	  <release>1.0.0</release>
+	  <api>1.0.0</api>
+	 </version>
+	 <stability>
+	  <release>beta</release>
+	  <api>beta</api>
+	 </stability>
+	 <license uri="http://www.symfony-project.org/license">MIT license</license>
+	 <notes>
+* WARNING: backwards-compatibility is broken
+* The GMap constructor now takes an option array as first parameter
+* added some unit tests
+* added some very interesting functions concerning bounds : Smallest bound containing coords, homthety transformation, zoomOut, Propel criteria "In bounds"
+* added some very interesting functions concerning coordinates : you can now transform lat/lng into Google Map' pixels coordinates system and vice-versa. This enables one to calculate the bounds around a coordinate for example, knowing only the Google Map's height/width in pixels	 	
+	 </notes>
+  </release>  
  </changelog>
 </package>
