@@ -11,6 +11,10 @@ Installation
   * Install the plugin
 
         $ symfony plugin:install sfEasyGMapPlugin (Not tested)
+        
+        or in your plugins directory :
+        
+        $ svn co http://svn.symfony-project.com/plugins/sfEasyGMapPlugin sfEasyGMapPlugin 
 
   * Get some Google Maps API keys for your production and development environments
 

@@ -123,11 +123,14 @@ class GMapMarker
    * Adds an onlick listener that open a html window with some text 
    *
    * @param String $html_text
+   * @since Mar 13, 2009 fabriceb replaced the escape_javascript of the TagHelper by plain code to ensure 1.2 compatibility
    */
   public function addHtmlInfoWindow($html_text)
   {
-    sfLoader::loadHelpers('Tag');
-    $this->addEvent(new GMapEvent('click',"this.openInfoWindowHtml('".escape_javascript($html_text)."')"));
+    $javascript = preg_replace('/\r\n|\n|\r/', "\\n", $html_text);
+    $javascript = preg_replace('/(["\'])/', '\\\\\1', $javascript);
+
+    $this->addEvent(new GMapEvent('click',"this.openInfoWindowHtml('".$javascript."')"));
   }
 
   /**
