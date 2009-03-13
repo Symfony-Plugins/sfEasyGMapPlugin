@@ -7,16 +7,22 @@
 
 class GMap
 {
+  
+  protected $default_options = array(
+      'double_click_zoom' => true,
+      'control' => 'new google.maps.LargeMapControl()',
+      'zoom' => 10,
+      'center_lat' => 48.845398,
+      'center_lng' => 2.34258,
+      'js_name' => 'map'
+  );
   // The API key provided by Google
   protected $api_key;
-  // the name of the javascript Google Map object
-  protected $js_name = 'map';
-  // Starting zoom and center parameters.
-  protected $zoom = 1;
-  protected $center_lat=26.43;
-  protected $center_lng=0;
+
   // id of the Google Map div container
-  protected $container_id='map';
+  protected $container_attributes = array(
+  		'id' =>'map'
+  );
   // style of the container
   protected $container_style=array('width'=>'512px','height'=>'512px');
 
@@ -35,80 +41,94 @@ class GMap
   /**
    * Constructs a Google Map PHP object
    *
-   * @param Integer $zoom
-   * @param Decimal $lat
-   * @param Decimal $lng
    * @param array $options
+   * @param array $attributes 
    */
-  public function __construct($zoom=null,$lat=null,$lng=null,$options=array())
+  public function __construct($options=array(),$container_attributes=array())
   {
+    $this->options = array_merge($this->default_options,$options);
+    $this->container_attributes = array_merge($this->container_attributes,$container_attributes);
     // sets the starting zoom and center parameters
-    if (!is_null($zoom))
-    {
-      $this->zoom=$zoom;
-    }
-    if (!is_null($lat) && !is_null($lng))
-    {
-      $this->setCenter($lat, $lng);
-    }
+    $this->zoom = $this->options['zoom'];
+    $this->setCenter($this->options['center_lat'], $this->options['center_lng']);
 
     // delcare the Google Map Javascript object as global
     $this->addGlobalVariable($this->getJsName(),'null');
 
     // set the Google Map API key for the current domain
-    $this->guessAPIKey();
-
-    $default_options = array(
-      'double_click_zoom'=>true,
-      'control'=>'new google.maps.LargeMapControl()'
-    );
-    $this->options = array_merge($default_options,$options);
+    $this->guessAndSetAPIKey();
 
   }
 
   /**
-   * Guesses the GoogleMap key for the current domain
+   * Guesses and sets the API Key
+   * @author Fabrice
    *
    */
-  protected function guessAPIKey()
+  protected function guessAndSetAPIKey()
   {
-    if (isset($_SERVER['SERVER_NAME']))
-    {
-      $this->setAPIKeyByDomain($_SERVER['SERVER_NAME']);
-    }
-    else if (isset($_SERVER['HTTP_HOST']))
-    {
-      $this->setAPIKeyByDomain($_SERVER['HTTP_HOST']);
-    }
-    else
-    {
-      $this->setAPIKeyByDomain('default');
-    }
+    $this->setAPIKey(self::guessAPIKey());
   }
-
+  
   /**
    * Sets the Google Map API Key using the array_google_keys defined in the app.yml of your application
    * @param String $domain The domaine name
+   * @author Fabrice
+   * 
    */
   public function setAPIKeyByDomain($domain)
+  {
+    $this->setAPIKey(self::getAPIKeyByDomain($domain));
+  }
+    
+  /**
+   * Guesses the GoogleMap key for the current domain
+   * @return String $api_key
+   * @author Fabrice
+   *
+   */
+  public static function guessAPIKey()
+  {
+    if (isset($_SERVER['SERVER_NAME']))
+    {
+      return self::getAPIKeyByDomain($_SERVER['SERVER_NAME']);
+    }
+    else if (isset($_SERVER['HTTP_HOST']))
+    {
+      return self::getAPIKeyByDomain($_SERVER['HTTP_HOST']);
+    }
+
+    return self::getAPIKeyByDomain('default');
+  }
+
+  /**
+   * Static method to retrieve API key
+   *
+   * @param unknown_type $domain
+   * @return unknown
+   */
+  public static function getAPIKeyByDomain($domain)
   {
     $api_keys = sfConfig::get('app_google_maps_api_keys');
     if (is_array($api_keys) && array_key_exists($domain,$api_keys))
     {
-      $this->api_key=$api_keys[$domain];
+      $api_key=$api_keys[$domain];
     }
     else
     {
       if (array_key_exists('default',$api_keys))
       {
-        $this->api_key=$api_keys['default'];
+        $api_key=$api_keys['default'];
       }
       else
       {
         throw new sfException('No Google Map API key defined in the app.yml file of your application');
       }
     }
+    
+    return $api_key;
   }
+
 
   /**
    * Geocodes an address
@@ -138,12 +158,12 @@ class GMap
   }
 
   /**
-   * @return String $js_name Javascript name of the googlemap
+   * @return String $this->options['js_name'] Javascript name of the googlemap
    */
   public function getJsName()
   {
 
-    return $this->js_name;
+    return $this->options['js_name'];
   }
 
   /**
@@ -199,6 +219,12 @@ class GMap
 
     return $this->container_style[$style_tag];
   }
+  
+  public function getContainerId()
+  {
+    
+    return $this->container_attributes['id'];
+  }
 
   /**
    * returns the Html for the Google map container
@@ -206,23 +232,23 @@ class GMap
    * @return String $container
    * @author Fabrice Bernhard
    */
-  public function getContainer($options=array())
+  public function getContainer($styles=array(),$attributes=array())
   {
-    if (count($options)>0)
-    {
-      $this->setContainerStyles($options);
-    }
+    $this->container_style = array_merge($this->container_style,$styles);
+    $this->container_attributes = array_merge($this->container_attributes,$attributes);
+
     $style="";
     foreach ($this->container_style as $tag=>$val)
     {
       $style.=$tag.":".$val.";";
     }
-    return
-	  	'
-	  	<div id="'.$this->container_id.'" style="'.$style.'">
-	  	</div>
-        ';
+    
+    $attributes = $this->container_attributes;
+    $attributes['style'] = $style;
+    
+    return RenderTag::renderContent('div',null,$attributes);
   }
+
 
   /**
    * Returns the Javascript for the Google map
@@ -238,7 +264,7 @@ class GMap
 
     $return ='';
     $init_events = array();
-    $init_events[] = $this->getJsName().' = new google.maps.Map2(document.getElementById("'.$this->container_id.'"));';
+    $init_events[] = $this->getJsName().' = new google.maps.Map2(document.getElementById("'.$this->getContainerId().'"));';
     $init_events[] = $this->getJsName().'.setCenter(new google.maps.LatLng('.$this->getCenterLat().', '.$this->getCenterLng().'), '.$this->getZoom().');';
     if ($options['double_click_zoom'])
     {
@@ -304,6 +330,22 @@ class GMap
   {
     $this->icons[$icon->getName()]=$icon;
   }
+  
+  /**
+   * Retourne l'objet GMapIcon à partir du nom de l'icone
+   *
+   * @param String $name
+   * @return GMapIcon
+   * 
+   * @author Vincent
+   * @since 2008-12-02
+   */
+  public function getIconByName($name)
+  {
+    
+    return $this->icons[$name];
+  }
+  
   /**
    * @param GMapMarker $marker a marker to be put on the map
    */
@@ -399,10 +441,6 @@ class GMap
     array_push($this->after_init_js,$after_init_js);
   }
 
-  public function getContainerId()
-  {
-    return $this->container_id;
-  }
   public function addGlobalVariable($name, $value='null')
   {
     $this->global_variables[$name]=$value;

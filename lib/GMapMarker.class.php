@@ -81,15 +81,25 @@ class GMapMarker
     return $this->lng;
   }
   
+  public function getIconName()
+  {
+    if ($this->getIcon() instanceof GMapIcon)
+    {
+      
+      return $this->getIcon()->getName();
+    }
+    
+    return $this->getIcon();
+  }
   /**
   * @return String Javascript code to create the marker
   * @author Fabrice Bernhard  
   */
   public function getMarkerJs()
   {
-    if ($this->getIcon() instanceof GMapIcon)
+    if ($this->getIconName() != '')
     {
-      $markerOptionsJs = ', { icon:'.$this->getIcon()->getName().' }';
+      $markerOptionsJs = ', { icon:'.$this->getIconName().' }';
     }
     else
     {
@@ -123,19 +133,21 @@ class GMapMarker
    * Adds an onlick listener that open a html window with some text 
    *
    * @param String $html_text
-   * @since Mar 13, 2009 fabriceb replaced the escape_javascript of the TagHelper by plain code to ensure 1.2 compatibility
+   * @author fabriceb
+   * @since Feb 20, 2009 fabriceb removed the escape_javascript function which made the plugin incompatible with symfony 1.2 
    */
   public function addHtmlInfoWindow($html_text)
   {
     $javascript = preg_replace('/\r\n|\n|\r/', "\\n", $html_text);
     $javascript = preg_replace('/(["\'])/', '\\\\\1', $javascript);
-
+    
     $this->addEvent(new GMapEvent('click',"this.openInfoWindowHtml('".$javascript."')"));
   }
 
   /**
    * Returns the code for the static version of Google Maps
    * @TODO Add support for color and alpha-char
+   * @author laurentb
    */
   public function getMarkerStatic()
   {

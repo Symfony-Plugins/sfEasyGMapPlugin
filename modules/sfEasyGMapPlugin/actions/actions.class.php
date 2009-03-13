@@ -3,6 +3,11 @@
 class sfEasyGMapPluginActions extends sfActions
 {
   
+  public function executeIndex()
+  {
+    
+  }
+  
   /**
    * Here we learn to display a simple Map and some markers
    * @author Fabrice Bernhard
@@ -68,7 +73,14 @@ class sfEasyGMapPluginActions extends sfActions
    */
   public function executeSample3()
   {
-    $this->gMap = new GMap(4,45,8,array('control'=>'new google.maps.SmallMapControl()'));
+    $this->gMap = new GMap(
+                                          array(
+                                          		'zoom'=>4,
+                                          		'center_lat'=>45,
+                                          		'center_lng'=>8,
+                                          		'control'=>'new google.maps.SmallMapControl()'
+                                          )
+                              );
 
     // some places in the world
     $coordinates = array(          

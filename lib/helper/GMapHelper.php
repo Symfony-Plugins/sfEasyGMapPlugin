@@ -5,6 +5,7 @@
  *
  * @param GMap $gMap
  * @param array style options of the container
+ * @author fabriceb
  */
 function include_map($gMap,$options=array())
 {
@@ -16,6 +17,7 @@ function include_map($gMap,$options=array())
  *
  * @param GMap $gMap
  * @param array style options of the container
+ * @author fabriceb
  */
 function include_map_javascript($gMap)
 {
@@ -24,7 +26,7 @@ function include_map_javascript($gMap)
 
 function include_search_location_form()
 {
-  sfContext::getInstance()->getResponse()->addJavascript('/sfGMaps2Plugin/js/sfGMaps2Plugin.js');
+  sfContext::getInstance()->getResponse()->addJavascript('/sfEasyGMapPlugin/js/sfEasyGMapPlugin.js');
   ?>
   <form onsubmit="geocode_and_show(document.getElementById('search_location_input').value);return false;">
     <input type="text" id="search_location_input" />

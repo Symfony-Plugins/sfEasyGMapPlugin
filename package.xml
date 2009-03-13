@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
- <name>sfEasyGMapPlugin</name><channel>plugins.symfony-project.org</channel>
- 
+ <name>sfEasyGMapPlugin</name>
+ <channel>plugins.symfony-project.org</channel>
  <summary>An easy, object-oriented, PHP abstraction of the Google Maps API</summary>
  <description>The sfEasyGMap plugin provides helpers and an objet-oriented PHP abstraction to the Google Maps API to ease the process of adding a Google Map and customising it in your symfony projects.</description>
  <lead>
@@ -10,13 +10,17 @@
   <email>fabriceb@allomatch.com</email>
   <active>yes</active>
  </lead>
-
- 
- <date>2008-09-21</date>
- <time>01:15:35</time>
+ <contributor>
+  <name>Laurent BACHELIER</name>
+  <user>laurentb</user>
+  <email>laurent@bachelier.name</email>
+  <active>yes</active> 	
+ </contributor> 
+ <date>2009-03-13</date>
+ <time>10:34:00</time>
  <version>
-  <release>0.9.0</release>
-  <api>0.9.0</api>
+  <release>0.9.4</release>
+  <api>0.9.4</api>
  </version>
  <stability>
   <release>beta</release>
@@ -74,10 +78,24 @@
     <channel>pear.symfony-project.com</channel>
     <min>1.0.0</min>
     <max>1.2.0</max>
-    <exclude>1.2.0</exclude>
    </package>
   </required>
  </dependencies>
  <phprelease />
- <changelog />
+ <changelog>
+  <release>
+    <version>
+      <release>0.9.4</release>
+      <api>0.9.4</api>
+    </version>
+    <stability>
+      <release>beta</release>
+      <api>beta</api>
+    </stability>
+    <license uri="http://www.symfony-project.org/license">MIT license</license>
+    <notes>
+ * removed the call to the Helper Tag to use the escape_javascript function to ensure symfony 1.2 compatibility
+    </notes>  	
+  </release>
+ </changelog>
 </package>
