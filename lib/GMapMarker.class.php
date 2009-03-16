@@ -16,9 +16,9 @@ class GMapMarker
   private $custom_properties = array();
   
   /**
-   * @param String $js_name Javascript name of the marker
-   * @param Decimal $lat Latitude
-   * @param Decimal $lng Longitude
+   * @param string $js_name Javascript name of the marker
+   * @param integer $lat Latitude
+   * @param integer $lng Longitude
    * @param GMapIcon $icon
    * @param GmapEvent[] array of GoogleMap Events linked to the marker
    * @author Fabrice Bernhard
@@ -35,7 +35,7 @@ class GMapMarker
   /**
    * Construct from a GMapGeocodedAddress object
    *
-   * @param String $js_name
+   * @param string $js_name
    * @param GMapGeocodedAddress $gmap_geocoded_address
    * @return GMapMarker
    */
@@ -50,7 +50,7 @@ class GMapMarker
   }
   
   /**
-  * @return String $js_name Javascript name of the marker  
+  * @return string $js_name Javascript name of the marker  
   */
   public function getName()
   {
@@ -65,7 +65,7 @@ class GMapMarker
     return $this->icon;
   }
   /**
-  * @return Decimal $lat Javascript latitude  
+  * @return integer $lat Javascript latitude  
   */
   public function getLat()
   {
@@ -73,7 +73,7 @@ class GMapMarker
     return $this->lat;
   }
   /**
-  * @return Decimal $lng Javascript longitude  
+  * @return integer $lng Javascript longitude  
   */
   public function getLng()
   {
@@ -92,7 +92,7 @@ class GMapMarker
     return $this->getIcon();
   }
   /**
-  * @return String Javascript code to create the marker
+  * @return string Javascript code to create the marker
   * @author Fabrice Bernhard  
   */
   public function getMarkerJs()
@@ -132,7 +132,7 @@ class GMapMarker
   /**
    * Adds an onlick listener that open a html window with some text 
    *
-   * @param String $html_text
+   * @param string $html_text
    * @author fabriceb
    * @since Feb 20, 2009 fabriceb removed the escape_javascript function which made the plugin incompatible with symfony 1.2 
    */
@@ -147,7 +147,8 @@ class GMapMarker
   /**
    * Returns the code for the static version of Google Maps
    * @TODO Add support for color and alpha-char
-   * @author laurentb
+   * @author Laurent Bachelier
+   * @return string
    */
   public function getMarkerStatic()
   {
@@ -166,8 +167,8 @@ class GMapMarker
   /**
    * Sets a custom property to the generated javascript object
    *
-   * @param String $name
-   * @param String $value
+   * @param string $name
+   * @param string $value
    */
   public function setCustomProperty($name,$value)
   {

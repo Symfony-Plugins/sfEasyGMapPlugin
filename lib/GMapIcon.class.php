@@ -34,7 +34,7 @@ class GMapIcon
   
   /**
    * Set Icon's path
-   * @param String $icon_src Icon's path
+   * @param string $icon_src Icon's path
    */
   public function setIconSrc($icon_src)
   {
@@ -42,7 +42,7 @@ class GMapIcon
   }
   /**
    * Get Icon's path
-   * @return String   
+   * @return string   
    */
   public function getIconSrc()
   {
@@ -51,7 +51,7 @@ class GMapIcon
   }
   /**
    * Set Shadow's path
-   * @param String $shadow_src Shadow's path
+   * @param string $shadow_src Shadow's path
    */
   public function setShadowSrc($shadow_src)
   {
@@ -67,7 +67,7 @@ class GMapIcon
   }
   /**
    * Get Icon's Javascript variable's name
-   * @return String $name 
+   * @return string $name 
    */
   public function getName()
   {
@@ -76,7 +76,7 @@ class GMapIcon
   }
   /**
    * Change Icon's JavaScript name
-   * @param String $name
+   * @param string $name
    */
   public function setName($name)
   {
@@ -94,7 +94,7 @@ class GMapIcon
   /**
    * Returns the javascript code tthat defines an icon
    *
-   * @return String
+   * @return string
    */
   public function getIconJs()
   {

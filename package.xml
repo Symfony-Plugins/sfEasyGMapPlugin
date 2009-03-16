@@ -5,17 +5,23 @@
  <summary>An easy, object-oriented, PHP abstraction of the Google Maps API</summary>
  <description>The sfEasyGMap plugin provides helpers and an objet-oriented PHP abstraction to the Google Maps API to ease the process of adding a Google Map and customising it in your symfony projects.</description>
  <lead>
-  <name>Fabrice BERNHARD</name>
+  <name>Fabrice Bernhard</name>
   <user>fabriceb</user>
   <email>fabriceb@allomatch.com</email>
   <active>yes</active>
  </lead>
- <contributor>
-  <name>Laurent BACHELIER</name>
+ <developer>
+  <name>Vincent Guillon</name>
+  <user>vincentg</user>
+  <email>vincentg@allomatch</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Laurent Bachelier</name>
   <user>laurentb</user>
   <email>laurent@bachelier.name</email>
   <active>yes</active> 	
- </contributor> 
+ </developer>
  <date>2009-03-13</date>
  <time>16:00:00</time>
  <version>

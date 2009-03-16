@@ -21,7 +21,7 @@ class GMapGeocodedAddress
   /**
    * Constructs a gMapGeocodedAddress object from a given $raw_address String
    *
-   * @param String $raw_address
+   * @param string $raw_address
    * @author Fabrice Bernhard
    */
   public function __construct($raw_address)
@@ -32,8 +32,8 @@ class GMapGeocodedAddress
   /**
    * Geocodes the address using the Google Maps CSV webservice
    *
-   * @param String $api_key
-   * @return Integer $accuracy
+   * @param string $api_key
+   * @return integer $accuracy
    * @author Fabrice Bernhard
    */
   public function geocode($api_key)
@@ -56,8 +56,8 @@ class GMapGeocodedAddress
   /**
    * Geocodes the address using the Google Maps XML webservice, which has more information.
    * Unknown values will be set to NULL.
-   * @param String $api_key
-   * @return Integer $accuracy
+   * @param string $api_key
+   * @return integer $accuracy
    * @author Fabrice Bernhard
    */
   public function geocodeXml($api_key)
@@ -103,7 +103,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the latitude
-   * @return Decimal $latitude
+   * @return integer $latitude
    */
   public function getLat()
   {
@@ -113,7 +113,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the longitude
-   * @return Decimal $longitude
+   * @return integer $longitude
    */
   public function getLng()
   {
@@ -123,7 +123,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the Geocoding accuracy
-   * @return Integer $accuracy
+   * @return integer $accuracy
    */
   public function getAccuracy()
   {
@@ -133,7 +133,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the address normalized by the Google Maps web service
-   * @return String $geocoded_address
+   * @return string $geocoded_address
    */
   public function getGeocodedAddress()
   {
@@ -143,7 +143,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the city normalized by the Google Maps web service
-   * @return String $geocoded_city
+   * @return string $geocoded_city
    */
   public function getGeocodedCity()
   {
@@ -153,7 +153,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the country code normalized by the Google Maps web service
-   * @return String $geocoded_country_code
+   * @return string $geocoded_country_code
    */
   public function getGeocodedCountryCode()
   {
@@ -163,7 +163,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the country normalized by the Google Maps web service
-   * @return String $geocoded_country
+   * @return string $geocoded_country
    */
   public function getGeocodedCountry()
   {
@@ -173,7 +173,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the postal code normalized by the Google Maps web service
-   * @return String $geocoded_postal_code
+   * @return string $geocoded_postal_code
    */
   public function getGeocodedPostalCode()
   {
@@ -183,7 +183,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the street name normalized by the Google Maps web service
-   * @return String $geocoded_country_code
+   * @return string $geocoded_country_code
    */
   public function getGeocodedStreet()
   {

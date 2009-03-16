@@ -72,7 +72,7 @@ class GMap
   
   /**
    * Sets the Google Map API Key using the array_google_keys defined in the app.yml of your application
-   * @param String $domain The domaine name
+   * @param string $domain The domaine name
    * @author Fabrice
    * 
    */
@@ -83,7 +83,7 @@ class GMap
     
   /**
    * Guesses the GoogleMap key for the current domain
-   * @return String $api_key
+   * @return string $api_key
    * @author Fabrice
    *
    */
@@ -132,7 +132,7 @@ class GMap
 
   /**
    * Geocodes an address
-   * @param String $address
+   * @param string $address
    * @return GMapGeocodedAddress
    * @author Fabrice Bernhard
    */
@@ -145,7 +145,7 @@ class GMap
   }
   /**
    * Geocodes an address and returns additional normalized information
-   * @param String $address
+   * @param string $address
    * @return GMapGeocodedAddress
    * @author Fabrice Bernhard
    */
@@ -158,7 +158,7 @@ class GMap
   }
 
   /**
-   * @return String $this->options['js_name'] Javascript name of the googlemap
+   * @return string $this->options['js_name'] Javascript name of the googlemap
    */
   public function getJsName()
   {
@@ -168,7 +168,7 @@ class GMap
 
   /**
    * Sets the Google Maps API key
-   * @param String $key
+   * @param string $key
    */
   public function setAPIKey($key)
   {
@@ -176,7 +176,7 @@ class GMap
   }
   /**
    * Gets the Google Maps API key
-   * @return String $key
+   * @return string $key
    */
   public function getAPIKey()
   {
@@ -194,8 +194,8 @@ class GMap
   }
   /**
    * Defines one style of the div container
-   * @param String $style_tag name of css tag
-   * @param String $style_value value of css tag
+   * @param string $style_tag name of css tag
+   * @param string $style_value value of css tag
    */
   public function setContainerStyle($style_tag,$style_value)
   {
@@ -212,7 +212,7 @@ class GMap
 
   /*
    * Gets one style of the Google Map div
-   * @param String $style_tag name of css tag
+   * @param string $style_tag name of css tag
    */
   public function getContainerStyle($style_tag)
   {
@@ -229,7 +229,7 @@ class GMap
   /**
    * returns the Html for the Google map container
    * @param Array $options Style options of the HTML container
-   * @return String $container
+   * @return string $container
    * @author Fabrice Bernhard
    */
   public function getContainer($styles=array(),$attributes=array())
@@ -314,7 +314,7 @@ class GMap
 
   /**
    * returns the URLS for the google map Javascript file
-   * @return String $js_url
+   * @return string $js_url
    */
   public function getGoogleJsUrl()
   {
@@ -334,7 +334,7 @@ class GMap
   /**
    * Retourne l'objet GMapIcon à partir du nom de l'icone
    *
-   * @param String $name
+   * @param string $name
    * @return GMapIcon
    * 
    * @author Vincent
@@ -380,7 +380,7 @@ class GMap
   }
   /**
    * Returns the javascript string which defines the icons
-   * @return String
+   * @return string
    */
   public function getIconsJs()
   {
@@ -394,7 +394,7 @@ class GMap
   }
   /**
    * Returns the javascript string which defines the markers
-   * @return String
+   * @return string
    */
   public function getMarkersJs()
   {
@@ -411,7 +411,7 @@ class GMap
 
   /*
    * Returns the javascript string which defines events linked to the map
-   * @return String
+   * @return string
    */
   public function getEventsJs()
   {
@@ -426,7 +426,7 @@ class GMap
 
   /*
    * Gets the Code to execute after Js initialization
-   * @return String $after_init_js
+   * @return string $after_init_js
    */
   public function getAfterInitJs()
   {
@@ -434,7 +434,7 @@ class GMap
   }
   /*
    * Sets the Code to execute after Js initialization
-   * @param String $after_init_js Code to execute
+   * @param string $after_init_js Code to execute
    */
   public function addAfterInitJs($after_init_js)
   {
@@ -453,8 +453,8 @@ class GMap
   /**
    * Sets the center of the map at the beginning
    *
-   * @param Decimal $lat
-   * @param Decimal $lng
+   * @param integer $lat
+   * @param integer $lng
    */
   public function setCenter($lat=null,$lng=null)
   {
@@ -483,12 +483,11 @@ class GMap
   }
 
   /**
-   * Returns the url for a static version of the map (when javascript is not active)
-   * Supports only markers and basic parameters: centre, zoom, size
-   *
+   * Returns the URL of a static version of the map (when JavaScript is not active)
+   * Supports only markers and basic parameters: center, zoom, size.
    * @param string $map_type = 'mobile'
    * @param string $hl Language (fr, en...)
-   * @return string Url of the picture
+   * @return string URL of the image
    * @author Laurent Bachelier
    */
   public function getStaticMapUrl($maptype='mobile', $hl='fr')
@@ -513,7 +512,7 @@ class GMap
 
   /**
    * Returns the static code to create markers
-   * @return String
+   * @return string
    * @author Laurent Bachelier
    */
   protected function getMarkersStatic()

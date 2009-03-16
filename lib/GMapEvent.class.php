@@ -13,9 +13,9 @@ class GMapEvent
   protected $encapsulate_function;
   
   /**
-   * @param String $trigger action that will trigger the event
-   * @param String $function the javascript function to be executed
-   * @param String $encapsulate_function
+   * @param string $trigger action that will trigger the event
+   * @param string $function the javascript function to be executed
+   * @param string $encapsulate_function
    * @author Fabrice Bernhard
    */
   public function __construct($trigger,$function,$encapsulate_function=true)
@@ -26,7 +26,7 @@ class GMapEvent
   }
   
   /**
-   * @return String $trigger  action that will trigger the event   
+   * @return string $trigger  action that will trigger the event   
    */
   public function getTrigger()
   {
@@ -34,7 +34,7 @@ class GMapEvent
     return $this->trigger;
   }
   /**   
-   * @return String $function the javascript function to be executed
+   * @return string $function the javascript function to be executed
    */
   public function getFunction()
   {
@@ -53,8 +53,8 @@ class GMapEvent
   /**
    * returns the javascript code for attaching a Google event to a javascript_object
    *
-   * @param String $js_object_name
-   * @return String
+   * @param string $js_object_name
+   * @return string
    * @author Fabrice Bernhard
    */
   public function getEventJs($js_object_name)
@@ -66,8 +66,8 @@ class GMapEvent
    /**
    * returns the javascript code for attaching a dom event to a javascript_object
    *
-   * @param String $js_object_name
-   * @return String
+   * @param string $js_object_name
+   * @return string
    * @author Fabrice Bernhard
    */
   public function getDomEventJs($js_object_name)
