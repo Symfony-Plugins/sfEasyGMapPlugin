@@ -17,8 +17,8 @@ class GMapMarker
   
   /**
    * @param string $js_name Javascript name of the marker
-   * @param integer $lat Latitude
-   * @param integer $lng Longitude
+   * @param float $lat Latitude
+   * @param float $lng Longitude
    * @param GMapIcon $icon
    * @param GmapEvent[] array of GoogleMap Events linked to the marker
    * @author Fabrice Bernhard
@@ -65,7 +65,7 @@ class GMapMarker
     return $this->icon;
   }
   /**
-  * @return integer $lat Javascript latitude  
+  * @return float $lat Javascript latitude  
   */
   public function getLat()
   {
@@ -73,7 +73,7 @@ class GMapMarker
     return $this->lat;
   }
   /**
-  * @return integer $lng Javascript longitude  
+  * @return float $lng Javascript longitude  
   */
   public function getLng()
   {
@@ -93,7 +93,7 @@ class GMapMarker
   }
   /**
   * @return string Javascript code to create the marker
-  * @author Fabrice Bernhard  
+  * @author Fabrice Bernhard
   */
   public function getMarkerJs()
   {

@@ -103,7 +103,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the latitude
-   * @return integer $latitude
+   * @return float $latitude
    */
   public function getLat()
   {
@@ -113,7 +113,7 @@ class GMapGeocodedAddress
 
   /**
    * Returns the longitude
-   * @return integer $longitude
+   * @return float $longitude
    */
   public function getLng()
   {

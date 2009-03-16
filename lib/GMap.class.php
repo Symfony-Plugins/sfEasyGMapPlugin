@@ -453,8 +453,8 @@ class GMap
   /**
    * Sets the center of the map at the beginning
    *
-   * @param integer $lat
-   * @param integer $lng
+   * @param float $lat
+   * @param float $lng
    */
   public function setCenter($lat=null,$lng=null)
   {
