@@ -292,7 +292,7 @@ class GMap
     }
 
     $return .= '
-  google.load("maps", "2.x");
+  google.load("maps", "2");
    	';
     foreach($this->global_variables as $name=>$value)
     {
