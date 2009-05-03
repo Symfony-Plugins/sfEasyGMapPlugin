@@ -44,9 +44,9 @@ $gMap->setHeight(512);
 
 $t->diag('->getMarkersCenterCoord test');
 
-$t->is($gMap->getMarkersCenterCoord()->__toString(),'48.4904108, 5.2092188','The center of our markers is ok');
+$t->is($gMap->getMarkersCenterCoord()->__toString(),'48.7538615, 5.3835875','The center of our markers is ok');
 $gMap->centerOnMarkers();
-$t->is($gMap->getCenterCoord()->__toString(),'48.4904108, 5.2092188','The center of the map is ok');
+$t->is($gMap->getCenterCoord()->__toString(),'48.7538615, 5.3835875','The center of the map is ok');
 
 $t->diag('->getMarkersFittingZoom test');
 
@@ -55,6 +55,6 @@ $gMap->zoomOnMarkers();
 $t->is($gMap->getZoom(),7,'The zoom of the map is ok');
 
 $gMap->centerAndZoomOnMarkers();
-$t->is($gMap->getCenterCoord()->__toString(),'48.4904108, 5.2092188','The center of the map is ok');
+$t->is($gMap->getCenterCoord()->__toString(),'48.7538615, 5.3835875','The center of the map is ok');
 $t->is($gMap->getZoom(),7,'The zoom of the map is ok');
 

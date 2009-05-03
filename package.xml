@@ -77,6 +77,7 @@
          <!-- unit -->
          <file role="data" name="GMapBoundsTest.php" />
 		 <file role="data" name="GMapCoordTest.php" />
+		 <file role="data" name="GMapTest.php" />
        </dir>	   
      </dir>
      <dir name="web">

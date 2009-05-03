@@ -126,4 +126,34 @@ class sfEasyGMapPluginActions extends sfActions
     $this->setTemplate('sample1');
   }
   
+  /**
+   * Here we learn to:
+   *  - adapt the map to the current markers using complex but hidden formulas :-)
+   */
+  public function executeSample4()
+  {
+    $this->gMap = new GMap();
+    $this->gMap->setWidth(512);
+    $this->gMap->setHeight(400);
+
+    $this->gMap->addMarker(
+      new GMapMarker(51.245475,6.821373)
+    );
+    $this->gMap->addMarker(
+      new GMapMarker(46.262248,6.115969)
+    );
+    $this->gMap->addMarker(
+      new GMapMarker(48.848959,2.341577)
+    );
+    $this->gMap->addMarker(
+      new GMapMarker(48.718952,2.219180)
+    );
+    $this->gMap->addMarker(
+      new GMapMarker(47.376420,8.547995)
+    );
+    $this->gMap->centerAndZoomOnMarkers(0.3);
+
+    $this->setTemplate('sample1');
+  }
+  
 }

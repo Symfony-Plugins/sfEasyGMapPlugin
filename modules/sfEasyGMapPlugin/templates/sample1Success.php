@@ -1,7 +1,7 @@
 <?php use_helper('Javascript','GMap') ?>
 
 <h1>The Map</h1>
-<?php include_map($gMap,array('width'=>'512px','height'=>'400px')); ?>
+<?php include_map($gMap); ?>
 
 Search on the map:
 <?php include_search_location_form() ?>

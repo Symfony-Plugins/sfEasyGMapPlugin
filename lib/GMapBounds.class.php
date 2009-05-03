@@ -154,6 +154,19 @@ class GMapBounds
     return floatval(($this->getSouthWest()->getLongitude()+$this->getNorthEast()->getLongitude())/2);
   }
   
+   /**
+   * Get the coordinates of the center of the zone
+   *
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2008-12-03 
+   */
+  public function getCenterCoord()
+  {
+  
+    return new GMapCoord($this->getCenterLat(), $this->getCenterLng());
+  }
+  
   /**
    * Hauteur du carré
    *

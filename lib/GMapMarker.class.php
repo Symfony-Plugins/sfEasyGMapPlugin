@@ -217,7 +217,7 @@ class GMapMarker
   * @since 2009-05-02
   *
   **/
-  public static function getCenterCoord($markers)
+  public static function getMassCenterCoord($markers)
   {
     $coords = array();
     foreach($markers as $marker)
@@ -225,7 +225,22 @@ class GMapMarker
       array_push($coords, $marker->getGMapCoord());
     }
    
-    return GMapCoord::getCenterCoord($coords);
+    return GMapCoord::getMassCenterCoord($coords);
+  }
+  
+  /**
+  *
+  * @param GMapMarker[] $markers array of MArkers
+  * @return GMapCoord
+  * @author fabriceb
+  * @since 2009-05-02
+  *
+  **/
+  public static function getCenterCoord($markers)
+  {
+    $bounds = GMapBounds::getBoundsContainingMarkers($markers);
+  
+    return $bounds->getCenterCoord();
   }
 	
 }

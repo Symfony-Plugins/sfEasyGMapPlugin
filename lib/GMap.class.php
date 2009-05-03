@@ -665,8 +665,8 @@ class GMap
    */
   public function centerAndZoomOnMarkers($margin = 0)
   {
-    $this->zoomOnMarkers($margin);
     $this->centerOnMarkers();
+    $this->zoomOnMarkers($margin);
   }
 
 }

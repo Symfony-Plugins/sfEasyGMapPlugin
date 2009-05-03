@@ -177,7 +177,7 @@ class GMapCoord
    * @author fabriceb
    * @since 2009-05-02
    */
-  public static function getCenterCoord($coords)  
+  public static function getMassCenterCoord($coords)  
   {
     if (count($coords)==0)
     {
@@ -194,6 +194,21 @@ class GMapCoord
     }
   
     return new GMapCoord($center_lat/count($coords),$center_lng/count($coords));
+  }
+  
+  /**
+   * Calculates the center of an array of coordiantes
+   * 
+   * @param GMapCoord[] $coords
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public static function getCenterCoord($coords)  
+  {
+    $bounds = GMapBounds::getBoundsContainingCoords($coords);
+  
+    return $bounds->getCenterCoord();
   }
   
   /**
