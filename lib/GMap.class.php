@@ -10,7 +10,7 @@ class GMap
   
   protected $default_options = array(
       'double_click_zoom' => true,
-      'control' => 'new google.maps.LargeMapControl()',
+      'control' => array('new google.maps.LargeMapControl()'),
       'zoom' => 10,
       'center_lat' => 48.845398,
       'center_lng' => 2.34258,
@@ -263,6 +263,8 @@ class GMap
    * @param Array $options
    * @return $string
    * @author Fabrice Bernhard
+   * @since 2009-04-23 tomr changed control from string to array
+   * @since 2009-05-03 fabriceb added backwards compatibility
    */
   public function getJavascript()
   {
@@ -278,7 +280,14 @@ class GMap
     {
       $init_events[] = $this->getJsName().'.enableDoubleClickZoom();';
     }
-    if ($options['control']!='')
+    if (is_array($options['control']))
+    {
+      foreach ($options['control'] as $control)
+      {
+        $init_events[] = $this->getJsName().'.addControl('.$control.');';
+      }
+    }
+    else if ($options['control'] != '')
     {
       $init_events[] = $this->getJsName().'.addControl('.$options['control'].');';
     }
