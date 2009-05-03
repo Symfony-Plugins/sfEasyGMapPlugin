@@ -22,11 +22,17 @@
   <email>laurent@bachelier.name</email>
   <active>yes</active> 	
  </developer>
+ <developer>
+  <name>Tom Haskins-Vaughan</name>
+  <user>tsmTom</user>
+  <email>tom@templestreetmedia.com</email>
+  <active>yes</active> 	
+ </developer>
  <date>2009-05-03</date>
- <time>17:50:00</time>
+ <time>18:30:00</time>
  <version>
-  <release>1.0.2</release>
-  <api>1.0.2</api>
+  <release>1.0.3</release>
+  <api>1.0.3</api>
  </version>
  <stability>
   <release>stable</release>
@@ -177,6 +183,21 @@
 * Created tests for the Mercator projections
 * Added the GMapBounds::getBoundsContainingMarkers($markers) function
 * Added the GMap::centerAndZoomOnMarkers() function which enables to guess zoom and center of the map to fit the markers. Center is easy to guess. Zoom uses width and height of smallest bound, pixel width and height of the map and Mercator projection
+	 </notes>    
+  </release>
+  <release>
+    <version>
+     <release>1.0.3</release>
+     <api>1.0.3</api>
+    </version>
+    <stability>
+     <release>stable</release>
+     <api>stable</api>
+    </stability>
+	 <license uri="http://www.symfony-project.org/license">MIT license</license>
+	 <notes>
+* Added tomr's contribution: it is now possible to add multiple controls to the map
+* Also bundled with GMapCoord::distance($coord1, $coord2) function which gives an estimation of the distance between two coordinates
 	 </notes>    
   </release>
  </changelog>
