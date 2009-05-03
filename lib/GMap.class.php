@@ -37,6 +37,9 @@ class GMap
 
   // options
   protected $options = array();
+  
+  protected $zoom = null;
+  protected $center_coord = null;
 
   /**
    * Constructs a Google Map PHP object
@@ -110,6 +113,11 @@ class GMap
   public static function getAPIKeyByDomain($domain)
   {
     $api_keys = sfConfig::get('app_google_maps_api_keys');
+    if (is_null($api_keys))
+    {
+      return '';
+    }
+    
     if (is_array($api_keys) && array_key_exists($domain,$api_keys))
     {
       $api_key=$api_keys[$domain];
@@ -458,29 +466,95 @@ class GMap
    */
   public function setCenter($lat=null,$lng=null)
   {
-    if (!is_null($lat))
-    {
-      $this->center_lat = $lat;
-    }
-    if (!is_null($lng))
-    {
-      $this->center_lng = $lng;
-    }
+    $this->center_coord = new GMapCoord($lat, $lng);
   }
+  
+  /**
+   * 
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function getCenterCoord()
+  {
+
+    return $this->center_coord;
+  }
+   /**
+   * 
+   * @return float
+   * @author fabriceb
+   * @since 2009-05-02
+   */
   public function getCenterLat()
   {
 
-    return $this->center_lat;
+    return $this->getCenterCoord()->getLatitude();
   }
+    /**
+   * 
+   * @return float
+   * @author fabriceb
+   * @since 2009-05-02
+   */
   public function getCenterLng()
   {
-    return $this->center_lng;
+    return $this->getCenterCoord()->getLongitude();
   }
   public function getZoom()
   {
 
     return $this->zoom;
   }
+  
+  /**
+   * gets the width of the map in pixels according to container style
+   * @return integer
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public function getWidth()
+  {
+  
+    return intval(substr($this->getContainerStyle('width'),0,-2));
+  }
+  
+  /**
+   * gets the width of the map in pixels according to container style
+   * @return integer
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public function getHeight()
+  {
+  
+    return intval(substr($this->getContainerStyle('height'),0,-2));
+  }
+  
+  /**
+   * sets the width of the map in pixels
+   * 
+   * @param integer
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public function setWidth($width)
+  {
+    $this->setContainerStyle('width',$width.'px');
+  }
+  
+  /**
+   * sets the width of the map in pixels
+   * 
+   * @param integer
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public function setHeight($height)
+  {
+    $this->setContainerStyle('height',$height.'px');
+  }
+  
 
   /**
    * Returns the URL of a static version of the map (when JavaScript is not active)
@@ -524,6 +598,75 @@ class GMap
     }
 
     return implode('|',$markers_code);
+  }
+  
+  /**
+   * 
+   * calculates the center of the markers linked to the map
+   * 
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function getMarkersCenterCoord()
+  {
+    
+    return GMapMarker::getCenterCoord($this->markers);
+  }
+  
+  /**
+   * sets the center of the map at the center of the markers
+   * 
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function centerOnMarkers()
+  {
+    $center = $this->getMarkersCenterCoord();
+  
+    $this->setCenter($center->getLatitude(), $center->getLongitude());
+  }
+  
+  /**
+   * 
+   * calculates the zoom which fits the markers on the map
+   * 
+   * @param integer $margin a scaling factor around the smallest bound
+   * @return integer $zoom
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function getMarkersFittingZoom($margin = 0)
+  {
+    $bounds = GMapBounds::getBoundsContainingMarkers($this->markers, $margin);
+    
+    return $bounds->getZoom(min($this->getWidth(),$this->getHeight()));
+  }
+  
+  /**
+   * sets the zoom of the map to fit the markers (uses mercator projection to guess the size in pixels of the bounds)
+   * WARNING : this depends on the width in pixels of the resulting map
+   * 
+   * @param integer $margin a scaling factor around the smallest bound
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function zoomOnMarkers($margin = 0)
+  {
+    $this->setZoom($this->getMarkersFittingZoom($margin));
+  }
+
+   /**
+   * sets the zoom and center of the map to fit the markers (uses mercator projection to guess the size in pixels of the bounds)
+   * 
+   * @param integer $margin a scaling factor around the smallest bound
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function centerAndZoomOnMarkers($margin = 0)
+  {
+    $this->zoomOnMarkers($margin);
+    $this->centerOnMarkers();
   }
 
 }

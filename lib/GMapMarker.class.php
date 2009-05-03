@@ -8,9 +8,30 @@
  */
 class GMapMarker
 {
+   /**
+   * javascript name of the marker
+   *
+   * @var string
+   */
   private $js_name        = null;
+  /**
+   * Latitude - deprecated
+   *
+   * @var float
+   */
   private $lat            = null;
+  /**
+   * Longitude - deprecated
+   *
+   * @var float
+   */
   private $lng            = null;
+  /**
+   * Coordinates
+   *
+   * @var GMapCoord
+   */
+  private $coord          = null;
   private $icon           = null;
   private $events         = array();
   private $custom_properties = array();
@@ -26,8 +47,7 @@ class GMapMarker
   public function __construct($lat,$lng,$js_name='marker',$icon=null,$events=array())
   {
     $this->js_name = $js_name;
-    $this->lat     = $lat;
-    $this->lng     = $lng;
+    $this->coord   = new GMapCoord($lat,$lng);
     $this->icon    = $icon;
     $this->events  = $events;    
   }
@@ -64,13 +84,27 @@ class GMapMarker
   {
     return $this->icon;
   }
+  
+  /**
+   * returns the coordinates object of the marker
+   * 
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function getGMapCoord()
+  {
+  
+    return $this->coord;
+  }
+  
   /**
   * @return float $lat Javascript latitude  
   */
   public function getLat()
   {
     
-    return $this->lat;
+    return $this->getGMapCoord()->getLatitude();
   }
   /**
   * @return float $lng Javascript longitude  
@@ -78,7 +112,7 @@ class GMapMarker
   public function getLng()
   {
     
-    return $this->lng;
+    return $this->getGMapCoord()->getLongitude();
   }
   
   public function getIconName()
@@ -173,6 +207,25 @@ class GMapMarker
   public function setCustomProperty($name,$value)
   {
     $this->custom_properties[$name] = $value;
+  }
+  
+  /**
+  *
+  * @param GMapMarker[] $markers array of MArkers
+  * @return GMapCoord
+  * @author fabriceb
+  * @since 2009-05-02
+  *
+  **/
+  public static function getCenterCoord($markers)
+  {
+    $coords = array();
+    foreach($markers as $marker)
+    {
+      array_push($coords, $marker->getGMapCoord());
+    }
+   
+    return GMapCoord::getCenterCoord($coords);
   }
 	
 }

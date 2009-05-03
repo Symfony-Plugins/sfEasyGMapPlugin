@@ -222,28 +222,35 @@ class GMapBounds
   }
   
   /**
-   * Returns the most appropriate zoom to see the bounds on a map with max(width,height) = $max_w_h
+   * Returns the most appropriate zoom to see the bounds on a map with min(width,height) = $min_w_h
    *
-   * @param integer $max_w_h width or height of the map in pixels
+   * @param integer $min_w_h width or height of the map in pixels
    * @return integer
    * @author fabriceb
    * @since Feb 18, 2009 fabriceb
    */
-  public function getZoom($max_w_h)
+  public function getZoom($min_w_h)
   {
-    $sw_lat_pix = GMapCoord::fromLatToPix($this->getSouthWest()->getLatitude(),1);
-    $ne_lat_pix = GMapCoord::fromLatToPix($this->getNorthEast()->getLatitude(),1);
+    /*
+      
+    formula: the width of the bounds in "pixels" is pix_w * 2^z
+    We want pix_w * 2^z to fit in min_w_h so we are looking for
+    z = round ( log2 ( min_w_h / pix_w  ) )
+     */
+    
+    $sw_lat_pix = GMapCoord::fromLatToPix($this->getSouthWest()->getLatitude(),0);
+    $ne_lat_pix = GMapCoord::fromLatToPix($this->getNorthEast()->getLatitude(),0);
     $pix_h = abs($sw_lat_pix-$ne_lat_pix);
-    $factor_h = $max_w_h / $pix_h;
+    $factor_h = $min_w_h / $pix_h;
     
-    $sw_lng_pix = GMapCoord::fromLngToPix($this->getSouthWest()->getLongitude(),1);
-    $ne_lng_pix = GMapCoord::fromLngToPix($this->getNorthEast()->getLongitude(),1);
+    $sw_lng_pix = GMapCoord::fromLngToPix($this->getSouthWest()->getLongitude(),0);
+    $ne_lng_pix = GMapCoord::fromLngToPix($this->getNorthEast()->getLongitude(),0);
     $pix_w = abs($sw_lng_pix-$ne_lng_pix);
-    $factor_w = $max_w_h / $pix_w;
+    $factor_w = $min_w_h / $pix_w;
     
-    $factor = max ($factor_w,$factor_h);
+    $factor = min($factor_w,$factor_h);
     
-    return round(log($factor,2))+1;
+    return round(log($factor,2));
   }
   
   /**
@@ -315,6 +322,27 @@ class GMapBounds
     $bounds = new GMapBounds(new GMapCoord($min_lat, $min_lng),new GMapCoord($max_lat, $max_lng));
     
     return $bounds;
+  }
+  
+  
+  /**
+  *
+  * @param GMapMarker[] $markers array of MArkers
+  * @param float $margin margin factor for the bounds
+  * @return GMapBounds
+  * @author fabriceb
+  * @since 2009-05-02
+  *
+  **/
+  public static function getBoundsContainingMarkers($markers, $margin = 0)
+  {
+    $coords = array();
+    foreach($markers as $marker)
+    {
+      array_push($coords, $marker->getGMapCoord());
+    }
+   
+    return GMapBounds::getBoundsContainingCoords($coords, $margin);
   }
 
   

@@ -21,6 +21,8 @@ class GMapCoord
    */
   protected $longitude;
   
+  const EARTH_RADIUS = 6380;
+  
   public function __construct($latitude = null, $longitude = null)
   {
     $this->latitude     = floatval($latitude);
@@ -71,10 +73,10 @@ class GMapCoord
    */
   public static function fromLngToPix($lng,$zoom)
   {
-    $lngrad = $lng / 180 * 3.14159;
+    $lngrad = deg2rad($lng);
     $mercx = $lngrad;
-    $cartx = $mercx + 3.14159;
-    $pixelx = $cartx * 256/(2*3.14159);
+    $cartx = $mercx + pi();
+    $pixelx = $cartx * 256/(2*pi());
     $pixelx_zoom =  $pixelx * pow(2,$zoom);    
     
     return $pixelx_zoom;
@@ -92,10 +94,23 @@ class GMapCoord
    */
   public static function fromLatToPix($lat,$zoom)
   {
-    $latrad = $lat / 180 * 3.14159;
-    $mercy = log(tan($latrad)+1/cos($latrad));
-    $carty = 3.14159 / 2 - $mercy;
-    $pixely = $carty * 256/(3.14159);
+    if ($lat == 90)
+    {
+      $pixely = 0;
+    }
+    else if ($lat == -90)
+    {
+      $pixely = 256;
+    }
+    else
+    {
+      $latrad = deg2rad($lat);
+      $mercy = log(tan(pi()/4+$latrad/2));
+      $carty = pi() - $mercy;
+      $pixely = $carty * 256 / 2 / pi();
+      $pixely = max(0, $pixely); // correct rounding errors near north and south poles
+      $pixely = min(256, $pixely); // correct rounding errors near north and south poles
+    }
     $pixely_zoom = $pixely * pow(2,$zoom);
     
     return $pixely_zoom;
@@ -114,10 +129,10 @@ class GMapCoord
   public static function fromPixToLng($pixelx_zoom,$zoom)
   {
     $pixelx = $pixelx_zoom / pow(2,$zoom);    
-    $cartx = $pixelx / 256 * 2 * 3.14159;    
-    $mercx = $cartx - 3.14159;
+    $cartx = $pixelx / 256 * 2 * pi();    
+    $mercx = $cartx - pi();
     $lngrad = $mercx;
-    $lng = 180 * $lngrad / 3.14159;
+    $lng = rad2deg($lngrad);
     
     return $lng;
   }
@@ -133,13 +148,94 @@ class GMapCoord
    * @since Feb 18, 2009 fabriceb
    */
   public static function fromPixToLat($pixely_zoom,$zoom)
-  {
+  {    
     $pixely = $pixely_zoom / pow(2,$zoom);
-    $carty = $pixely / 256 * 3.14159;
-    $mercy = 3.14159 / 2 - $carty;
-    $latrad = 2 * atan(exp($mercy))-3.14159/2;
-    $lat = 180 * $latrad / 3.14159;
+    if ($pixely == 0)
+    {
+      $lat = 90;
+    }
+    else if ($pixely == 256)
+    {
+      $lat = -90;
+    }
+    else
+    {
+      $carty = $pixely / 256 * 2 * pi();
+      $mercy = pi() - $carty;
+      $latrad = 2 * atan(exp($mercy))-pi()/2;
+      $lat = rad2deg($latrad);
+    }
         
     return $lat;
+  }
+  
+  /**
+   * Calculates the center of an array of coordiantes
+   * 
+   * @param GMapCoord[] $coords
+   * @return GMapCoord
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public static function getCenterCoord($coords)  
+  {
+    if (count($coords)==0)
+    {
+      
+      return null;
+    }
+    $center_lat = 0;
+    $center_lng = 0;
+    foreach($coords as $coord)
+    {
+      /* @var $coord GMapCoord */
+      $center_lat += $coord->getLatitude();
+      $center_lng += $coord->getLongitude();
+    }
+  
+    return new GMapCoord($center_lat/count($coords),$center_lng/count($coords));
+  }
+  
+  /**
+   * toString method
+   * @return string
+   * @author fabriceb
+   * @since 2009-05-02
+   */
+  public function __toString()
+  {
+    
+    return $this->getLatitude().', '.$this->getLongitude();
+  }
+  
+  /**
+   * very approximate calculation of the distance in kilometers between two coordinates
+   * @param GMapCoord $coord2
+   * @return float
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public function distanceFrom($coord2)
+  {
+    $lat_dist = abs($this->getLatitude()-$coord2->getLatitude());
+    $lng_dist = abs($this->getLongitude()-$coord2->getLongitude());
+    
+    $rad_dist = deg2rad(sqrt(pow($lat_dist,2)+pow($lng_dist,2)));
+  
+    return $rad_dist * self::EARTH_RADIUS;
+  }
+  
+    /**
+   * very approximate calculation of the distance in kilometers between two coordinates
+   * @param GMapCoord $coord1
+   * @param GMapCoord $coord2
+   * @return float
+   * @author fabriceb
+   * @since 2009-05-03
+   */
+  public static function distance($coord1, $coord2)
+  {
+  
+    return $coord1->distanceFrom($coord2);
   }
 }

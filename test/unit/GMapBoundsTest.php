@@ -24,21 +24,26 @@ $ne_lng = GMapCoord::fromPixToLng($pix + 150, $zoom);
 
 $bounds = new GMapBounds(new GMapCoord($sw_lat,$sw_lng),new GMapCoord($ne_lat,$ne_lng));
 
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(13, new lime_output_color());
 
 $t->diag('GMapBounds test');
 
 $t->diag('->__toString Test');
-$t->is($bounds->__toString(),'((48.822717313, 2.23631017383), (48.8904837922, 2.44230382617))','On a déduit correctement les bounds à partir de la largeur de la carte, le centre et le zoom');
-
-$t->diag('->__toString Test');
-$t->is($bounds->__toString(),'((48.822717313, 2.23631017383), (48.8904837922, 2.44230382617))','On a déduit correctement les bounds à partir de la largeur de la carte, le centre et le zoom');
+$t->is($bounds->__toString(),'((48.7887237041, 2.23631017383), (48.9242565582, 2.44230382617))','On a déduit correctement les bounds à partir de la largeur de la carte, le centre et le zoom');
 
 $t->diag('->getZoom Test');
-$t->is($bounds->getZoom(300),11,'Pour voir Paris sur une largeur/hauteur de 300 pix, il faut un zoom 11');
+
+$bounds_world = GMapBounds::createFromString('((-90, -180), (90, 180))');
+$t->is($bounds_world->getZoom(256),0,'Pour voir le monde sur une largeur/hauteur de 256 pix, il faut un zoom 0');
+
+$bounds_world2 = GMapBounds::createFromString('((-86, -179), (86, 179))');
+$t->is($bounds_world2->getZoom(256),0,'Pour voir le monde sur une largeur/hauteur de 256 pix, il faut un zoom 0');
+
+$bounds_paris = GMapBounds::createFromString('((48.791033113791144, 2.2240447998046875), (48.926559723513435, 2.4300384521484375))');
+$t->is($bounds_paris->getZoom(300),11,'Pour voir Paris sur une largeur/hauteur de 300 pix, il faut un zoom 11');
 
 $t->diag('->createFromString Test');
-$bounds_france = GMapBounds::createFromString('((42.391008609205045, -4.833984375), (51.37178037591737, 8.349609375))');
+$bounds_france = GMapBounds::createFromString('((42.32606244456202, -4.921875), (51.31688050404585, 8.26171875))');
 $t->is($bounds_france->getZoom(300),5,'Pour voir la France sur une largeur/hauteur de 300 pix, il faut un zoom 5');
 
 $t->diag('->getHomothety Test');
@@ -64,5 +69,15 @@ $bounds_12 = GMapBounds::getBoundsContainingCoords(array($coord_1,$coord_2));
 $bounds_123 = GMapBounds::getBoundsContainingCoords(array($coord_1,$coord_2,$coord_3));
 $t->is($bounds_12->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the coords is the rectangle containing the two coords');
 $t->is($bounds_123->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the coords is the rectangle containing the three coords');
+
+
+$t->diag('->getBoundsContainingMarkers Test');
+$marker_1 = new GMapMarker(48.7887996681, 2.23631017383);
+$marker_2 = new GMapMarker(48.9243326339, 2.44230382617);
+$marker_3 = new GMapMarker(48.8, 2.4);
+$bounds_12 = GMapBounds::getBoundsContainingMarkers(array($marker_1,$marker_2));
+$bounds_123 = GMapBounds::getBoundsContainingMarkers(array($marker_1,$marker_2,$marker_3));
+$t->is($bounds_12->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the markers is the rectangle containing the two markers');
+$t->is($bounds_123->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the markers is the rectangle containing the three markers');
 
 $t->diag('Fin du test');
