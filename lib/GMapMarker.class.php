@@ -13,28 +13,28 @@ class GMapMarker
    *
    * @var string
    */
-  private $js_name        = null;
+  protected $js_name        = null;
   /**
    * Latitude - deprecated
    *
    * @var float
    */
-  private $lat            = null;
+  protected $lat            = null;
   /**
    * Longitude - deprecated
    *
    * @var float
    */
-  private $lng            = null;
+  protected $lng            = null;
   /**
    * Coordinates
    *
    * @var GMapCoord
    */
-  private $coord          = null;
-  private $icon           = null;
-  private $events         = array();
-  private $custom_properties = array();
+  protected $coord          = null;
+  protected $icon           = null;
+  protected $events         = array();
+  protected $custom_properties = array();
   
   /**
    * @param string $js_name Javascript name of the marker
