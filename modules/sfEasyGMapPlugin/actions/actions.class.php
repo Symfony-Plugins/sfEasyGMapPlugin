@@ -156,4 +156,40 @@ class sfEasyGMapPluginActions extends sfActions
     $this->setTemplate('sample1');
   }
   
+  /**
+   * Here we learn to:
+   *  - center on a given place and guess the bounds from the zoom and center
+   */
+  public function executeSample5()
+  {
+    $this->gMap = new GMap();
+    $this->gMap->setWidth(512);
+    $this->gMap->setHeight(400);
+    // center on Paris
+    $this->gMap->setCenter(48.857939,2.346611);
+    // nice zoom
+    $this->gMap->setZoom(11);
+    
+    $bounds = $this->gMap->getBoundsFromCenterAndZoom(48.857939,2.346611,11,512,400);
+    
+    
+    $markers = array(
+      new GMapMarker(51.245475,6.821373),
+      new GMapMarker(46.262248,6.115969),
+      new GMapMarker(48.848959,2.341577),
+      new GMapMarker(48.718952,2.219180),
+      new GMapMarker(47.376420,8.547995),
+    );
+    
+    foreach($markers as $marker)
+    {
+      if ($marker->isInsideBounds($bounds))
+      {
+        $this->gMap->addMarker($marker);
+      }
+    }
+
+    $this->setTemplate('sample1');
+  }
+  
 }

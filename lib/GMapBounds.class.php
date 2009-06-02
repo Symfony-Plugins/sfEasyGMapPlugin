@@ -357,6 +357,62 @@ class GMapBounds
    
     return GMapBounds::getBoundsContainingCoords($coords, $margin);
   }
+  
+	
+  /**
+   * Calculate the bounds corresponding to a specific center and zoom level for a give map size in pixels
+   * 
+   * @param GMapCoord $center_coord
+   * @param integer $zoom
+   * @param integer $width
+   * @param integer $height
+   * @return GMapBounds
+   * @author fabriceb
+   * @since Jun 2, 2009 fabriceb
+   */
+  public static function getBoundsFromCenterAndZoom(GMapCoord $center_coord, $zoom, $width, $height = null)
+  {
+    if (is_null($height))
+    {
+      $height = $width;
+    }
+    
+    $center_lat = $center_coord->getLatitude();
+    $center_lng = $center_coord->getLongitude();
 
+    $pix = GMapCoord::fromLatToPix($center_lat, $zoom);
+    $ne_lat = GMapCoord::fromPixToLat($pix - round(($height-1) / 2), $zoom);
+    $sw_lat = GMapCoord::fromPixToLat($pix + round(($height-1) / 2), $zoom);
+    
+    $pix = GMapCoord::fromLngToPix($center_lng, $zoom);
+    $sw_lng = GMapCoord::fromPixToLng($pix - round(($width-1) / 2), $zoom);
+    $ne_lng = GMapCoord::fromPixToLng($pix + round(($width-1) / 2), $zoom);
+
+    return new GMapBounds(new GMapCoord($sw_lat, $sw_lng), new GMapCoord($ne_lat, $ne_lng));
+  }
+  
+  /**
+   * 
+   * @param GMapCoord $gmap_coord
+   * @return boolean $is_inside
+   * @author fabriceb
+   * @since Jun 2, 2009 fabriceb
+   */
+  public function containsGMapCoord(GMapCoord $gmap_coord)
+  {
+    $is_inside = 
+      (
+      $gmap_coord->getLatitude() < $this->getNorthEast()->getLatitude()
+      &&
+      $gmap_coord->getLatitude() > $this->getSouthWest()->getLatitude()
+      &&
+      $gmap_coord->getLongitude() < $this->getNorthEast()->getLongitude()
+      &&
+      $gmap_coord->getLongitude() > $this->getSouthWest()->getLongitude()
+      );
+  
+    return $is_inside;
+  }
+  
   
 }

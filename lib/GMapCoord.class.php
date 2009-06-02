@@ -253,4 +253,17 @@ class GMapCoord
   
     return $coord1->distanceFrom($coord2);
   }
+  
+  /**
+   * 
+   * @param GMapBounds $gmap_bounds
+   * @return boolean $is_inside
+   * @author fabriceb
+   * @since Jun 2, 2009 fabriceb
+   */
+  public function isInsideBounds(GMapBounds $gmap_bounds)
+  {
+  
+    return $gmap_bounds->containsGMapCoord($this);
+  }
 }

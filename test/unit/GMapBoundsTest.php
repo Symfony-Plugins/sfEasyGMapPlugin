@@ -24,7 +24,7 @@ $ne_lng = GMapCoord::fromPixToLng($pix + 150, $zoom);
 
 $bounds = new GMapBounds(new GMapCoord($sw_lat,$sw_lng),new GMapCoord($ne_lat,$ne_lng));
 
-$t = new lime_test(13, new lime_output_color());
+$t = new lime_test(15, new lime_output_color());
 
 $t->diag('GMapBounds test');
 
@@ -79,5 +79,16 @@ $bounds_12 = GMapBounds::getBoundsContainingMarkers(array($marker_1,$marker_2));
 $bounds_123 = GMapBounds::getBoundsContainingMarkers(array($marker_1,$marker_2,$marker_3));
 $t->is($bounds_12->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the markers is the rectangle containing the two markers');
 $t->is($bounds_123->__toString(),'((48.7887996681, 2.23631017383), (48.9243326339, 2.44230382617))', 'The minimal bounds containing the markers is the rectangle containing the three markers');
+
+
+$t->diag('->getBoundsFromCenter Test');
+$center_coord = new GMapCoord(48.856536,2.339307);
+$zoom = 11;
+$bounds = GMapBounds::getBoundsFromCenterAndZoom($center_coord, $zoom, 300, 300);
+
+$t->is($bounds->__toString(),'((48.7887237041, 2.23631017383), (48.9242565582, 2.44230382617))','On a déduit correctement les bounds à partir de la largeur de la carte, le centre et le zoom');
+
+$bounds = GMapBounds::getBoundsFromCenterAndZoom($center_coord, $zoom, 1, 1);
+$t->is($bounds->__toString(),'((48.856536, 2.339307), (48.856536, 2.339307))','On a déduit correctement les bounds à partir de la largeur de la carte, le centre et le zoom');
 
 $t->diag('Fin du test');

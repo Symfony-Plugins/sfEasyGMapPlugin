@@ -677,5 +677,17 @@ class GMap
     $this->centerOnMarkers();
     $this->zoomOnMarkers($margin);
   }
+  
+  /**
+   * 
+   * @return GMapBounds
+   * @author fabriceb
+   * @since Jun 2, 2009 fabriceb
+   */
+  public function getBoundsFromCenterAndZoom()
+  {
+  
+    return GMapBounds::getBoundsFromCenterAndZoom($this->getCenterCoord(),$this->getZoom(),$this->getWidth(),$this->getHeight());
+  }
 
 }

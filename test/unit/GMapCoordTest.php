@@ -9,7 +9,7 @@ include(dirname(__FILE__).'/../bootstrap/unit.php');
 //include(dirname(__FILE__).'/../bootstrap/functional.php');
 
 
-$t = new lime_test(286, new lime_output_color());
+$t = new lime_test(289, new lime_output_color());
 
 $t->diag('GMapCoords Tests');
 
@@ -51,3 +51,12 @@ $t->is(round(GMapCoord::distance($coord_le_mans, $coord_paris)),257,'Approximate
 $coord_luxembourg = new GMapCoord(48.846559,2.340689);
 $coord_saint_michel = new GMapCoord(48.853717,2.344015);
 $t->is(round(GMapCoord::distance($coord_luxembourg, $coord_saint_michel)*1000),879,'Approximate distance between RER Luxembourg and Saint-Michel is 879 meters');
+
+
+$coord_luxembourg = new GMapCoord(48.846559,2.340689);
+$coord_saint_michel = new GMapCoord(48.853717,2.344015);
+$center_of_the_world = new GMapCoord(0,0);
+$bounds_paris = GMapBounds::createFromString('((48.791033113791144, 2.2240447998046875), (48.926559723513435, 2.4300384521484375))');
+$t->ok($coord_saint_michel->isInsideBounds($bounds_paris),'Saint-Michel Notre-Dame is in Paris');
+$t->ok($coord_luxembourg->isInsideBounds($bounds_paris),'RER Luxembourg is in Paris');
+$t->ok(!$center_of_the_world->isInsideBounds($bounds_paris),'Center of the world is not in Paris (amazingly)');

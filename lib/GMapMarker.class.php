@@ -242,5 +242,18 @@ class GMapMarker
   
     return $bounds->getCenterCoord();
   }
+  
+  /**
+   * 
+   * @param GMapBounds $gmap_bounds
+   * @return boolean $is_inside
+   * @author fabriceb
+   * @since Jun 2, 2009 fabriceb
+   */
+  public function isInsideBounds(GMapBounds $gmap_bounds)
+  {
+  
+    return $this->getGMapCoord()->isInsideBounds($gmap_bounds);
+  }
 	
 }
