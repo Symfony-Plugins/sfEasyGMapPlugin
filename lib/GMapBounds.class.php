@@ -312,6 +312,10 @@ class GMapBounds
    */
   public static function getBoundsContainingCoords($coords, $margin = 0)
   {
+    if (count($coords) < 1)
+    {
+      throw new Exception('GMapBounds::getBoundsContainingCoords needs at least one coordinate');
+    }
     $min_lat = 1000;
     $max_lat = -1000;
     $min_lng = 1000;

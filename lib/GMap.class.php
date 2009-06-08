@@ -647,6 +647,13 @@ class GMap
    */
   public function getMarkersFittingZoom($margin = 0)
   {
+    // only one marker ? use a nice default zoom : 14
+    if (count($this->markers) < 2)
+    {
+      
+      return 14; 
+    }
+    
     $bounds = GMapBounds::getBoundsContainingMarkers($this->markers, $margin);
     
     return $bounds->getZoom(min($this->getWidth(),$this->getHeight()));

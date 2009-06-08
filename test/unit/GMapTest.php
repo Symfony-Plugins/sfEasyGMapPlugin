@@ -9,7 +9,7 @@ include(dirname(__FILE__).'/../bootstrap/unit.php');
 //include(dirname(__FILE__).'/../bootstrap/functional.php');
 
 
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(12, new lime_output_color());
 
 $t->diag('GMap Tests');
 
@@ -58,3 +58,15 @@ $gMap->centerAndZoomOnMarkers();
 $t->is($gMap->getCenterCoord()->__toString(),'48.7538615, 5.3835875','The center of the map is ok');
 $t->is($gMap->getZoom(),7,'The zoom of the map is ok');
 
+
+// Walter Mattes's bug: centerAndZoomOnMarkers does not work with less than two markers, since the zoom
+// is calculated to fit at least two markers
+// corrected by applying a default zoom of 14 when less than two markers are present 
+/** @var $gMap GMap */
+$gMap = new GMap();
+$gMap->addMarker(
+  new GMapMarker(51.245475,6.821373)
+);
+$gMap->centerAndZoomOnMarkers();
+$t->is($gMap->getCenterCoord()->__toString(),'51.245475, 6.821373','The center of the map is ok');
+$t->is($gMap->getZoom(),14,'The default zoom is used when only one marker is given');
