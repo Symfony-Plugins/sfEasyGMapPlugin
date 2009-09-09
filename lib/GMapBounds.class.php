@@ -362,7 +362,7 @@ class GMapBounds
     return GMapBounds::getBoundsContainingCoords($coords, $margin);
   }
   
-	
+  
   /**
    * Calculate the bounds corresponding to a specific center and zoom level for a give map size in pixels
    * 

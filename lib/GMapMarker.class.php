@@ -255,5 +255,5 @@ class GMapMarker
   
     return $this->getGMapCoord()->isInsideBounds($gmap_bounds);
   }
-	
+  
 }

@@ -75,10 +75,10 @@ class sfEasyGMapPluginActions extends sfActions
   {
     $this->gMap = new GMap(
                                           array(
-                                          		'zoom'=>4,
-                                          		'center_lat'=>45,
-                                          		'center_lng'=>8,
-                                          		'control'=>'new google.maps.SmallMapControl()'
+                                              'zoom'=>4,
+                                              'center_lat'=>45,
+                                              'center_lng'=>8,
+                                              'control'=>'new google.maps.SmallMapControl()'
                                           )
                               );
 

@@ -21,7 +21,7 @@ class GMap
 
   // id of the Google Map div container
   protected $container_attributes = array(
-  		'id' =>'map'
+      'id' =>'map'
   );
   // style of the container
   protected $container_style=array('width'=>'512px','height'=>'512px');
@@ -302,7 +302,7 @@ class GMap
 
     $return .= '
   google.load("maps", "2");
-   	';
+    ';
     foreach($this->global_variables as $name=>$value)
     {
       $return .= '
