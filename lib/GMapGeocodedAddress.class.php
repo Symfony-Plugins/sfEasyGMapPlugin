@@ -22,11 +22,14 @@ class GMapGeocodedAddress
    * Constructs a gMapGeocodedAddress object from a given $raw_address String
    *
    * @param string $raw_address
+   * @param string $country_code ccTLD (county code top-level domain)
    * @author Fabrice Bernhard
+   * @since 2010-06-28 Ludovic Vigouroux : Add country_code attribute
    */
-  public function __construct($raw_address)
+  public function __construct($raw_address, $country_code = null)
   {
     $this->raw_address = $raw_address;
+    $this->country_code = $country_code;
   }
 
   /**
@@ -35,10 +38,19 @@ class GMapGeocodedAddress
    * @param string $api_key
    * @return integer $accuracy
    * @author Fabrice Bernhard
+   * @since 2010-06-28 Ludovic Vigouroux : Add country code biasing
    */
   public function geocode($api_key)
   {
-    $apiURL = "http://maps.google.com/maps/geo?&output=csv&key=".$api_key."&q=";
+    $apiURL = "http://maps.google.com/maps/geo?";
+    $apiURL .= "&output=csv";
+    $apiURL .= "&key=".$api_key;
+    if (null !== $this->country_code)
+    {
+      $apiURL .= "&gl=".$this->country_code;
+    }
+    $apiURL .= "&q=";
+
     $raw_data = file_get_contents($apiURL.urlencode($this->raw_address));
     $geocoded_array = explode(',',$raw_data);
     if ($geocoded_array[0]!=200)
@@ -144,11 +156,13 @@ class GMapGeocodedAddress
   /**
    * Returns the city normalized by the Google Maps web service
    * @return string $geocoded_city
+   *
+   * @since 2010-05-19 Ludovic Vigouroux : Add decoding of double-encoding utf8
    */
   public function getGeocodedCity()
   {
 
-    return $this->geocoded_city;
+    return utf8_decode($this->geocoded_city);
   }
 
   /**
